@@ -8,8 +8,28 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-export default {
-	async fetch(request, env, ctx) {
-		return new Response('Hello World!');
-	},
+
+var src_default = {
+			async fetch(request, env, ctx) {
+				var body = {};
+				var message;
+				if (request.method == "POST") {
+							message = "Hello World, you did a POST";
+					} 
+				else {
+							message = "Hello World, you did not do a POST";
+						}
+				const output = {
+							result: message,
+				};
+				return new Response (JSON.stringify (output), {
+							headers: {
+								'content-type': 'application/json;charset=UTF-8',
+							},
+						});
+		}
+}
+
+export {
+	src_default as default 
 };
