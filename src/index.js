@@ -71,6 +71,35 @@ function country_response (country) {
 	return (COUNTRY_LOOKUP_TABLE[country]);
 }
 
+//Code Club Assignment 3
+var assignment_3 = {
+	async fetch(request, env, ctx) {
+		const origin_url = "https://www.cloudflare.com";
+		const blackhole_url = "https://httpbin.org/get";
+		let destination_url = "";
+
+		// Get the bot score
+		const bot_score = request.cf.botManagement.score;
+
+		// Pick destination based on bot score
+		if (bot_score < 29) {
+			destination_url = blackhole_url;
+		} else {
+			destination_url = origin_url;
+		}
+
+		const newrequest = new Request (destination_url, request);
+
+		if (request.method == "GET") {
+			let response = await fetch (newrequest);
+			return response;
+		}
+		else {
+			return new Response ("You used a POST, you're stuck here");
+		}
+	}
+}
+
 export {
-	assignment_2 as default 
+	assignment_3 as default 
 };
